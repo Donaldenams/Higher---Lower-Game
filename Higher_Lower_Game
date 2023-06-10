@@ -1,0 +1,44 @@
+from art import logo, vs
+from game_data import data
+import random
+from replit import clear
+
+score = 0
+def format_data(select):
+  """Format an account data into a printable format"""
+  name = select ['name']
+  description = select['description']
+  country = select['country']
+  return f': {name}, {description}, from {country}'
+
+def compare_answers(guess, A, B):
+  """Takes the user guess and follower counts and return if they got it right."""
+  if A > B :
+    return guess == 'a'
+  else:
+    return guess == 'b'
+select_b = random.choice(data)
+game_start = True
+while game_start:
+  select_a = select_b
+  select_b = random.choice(data)
+  while select_a == select_b:
+    select_a = random.choice(data)
+  
+  
+  print (logo)
+  print(f'Compare A{format_data(select_a)}')
+  print(vs)
+  print(f'Against B{format_data(select_b)}')
+  
+  guess = input('Who has more followers "A" or "B": ').lower()
+  followers_a = select_a['follower_count']
+  followers_b = select_b['follower_count']
+  is_correct = compare_answers(guess, followers_a, followers_b)
+  clear()
+  if is_correct:
+    score += 1
+    print(f'You got it, you have {score} point ')
+  else:
+    game_start = False
+    print(f'Game Over! Final score is {score}')
